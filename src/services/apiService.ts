@@ -1,7 +1,6 @@
 import { OrderCancelRequestBody } from "../controller/schema/orderCancelSchema";
 import { OrderModifyRequestBody } from "../controller/schema/orderModifySchema";
-import { OrderPlaceRequestBody } from "../controller/schema/orderPlaceSchema";
-import { AngleApiResponse } from "../types";
+import { AngleApiResponse, LoginApiResponse, OrderModifyApiResponse, OrderPlaceApiResponse, OrderTypes } from "../types";
 import httpService from "./httpService";
 
 const headers = (jwtToken?: string) => {
@@ -26,10 +25,10 @@ const headers = (jwtToken?: string) => {
   }
 };
 
-export const loginAndSaveApiService = async (data: { clientcode: string; password: string; totp: string }) => {
+export const loginAndSaveApiService = async (data: { clientcode: string; password: string; totp: string }): Promise<LoginApiResponse> => {
   try {
-    const response = await httpService.post<AngleApiResponse>("/rest/auth/angelbroking/user/v1/loginByPassword", data, headers());
-    return response.data;
+    const response = await httpService.post<LoginApiResponse>("/rest/auth/angelbroking/user/v1/loginByPassword", data, headers());
+    return response;
   } catch (error) {
     throw error;
   }
@@ -54,22 +53,19 @@ export async function searchScripService(data: any, jwtToken: string) {
   }
 }
 
-export async function orderPlaceService(
-  data: OrderPlaceRequestBody,
-  jwtToken: string
-): Promise<{ orderid: string; script: string; uniqueorderid: string }> {
+export async function orderPlaceService(data: OrderTypes, jwtToken: string): Promise<OrderPlaceApiResponse> {
   try {
-    const response = await httpService.post<AngleApiResponse>("/rest/secure/angelbroking/order/v1/placeOrder", data, headers(jwtToken));
-    return response.data as unknown as { orderid: string; script: string; uniqueorderid: string };
+    const response = await httpService.post<OrderPlaceApiResponse>("/rest/secure/angelbroking/order/v1/placeOrder", data, headers(jwtToken));
+    return response;
   } catch (error) {
     throw error;
   }
 }
 
-export async function orderModifyService(data: OrderModifyRequestBody, jwtToken: string) {
+export async function orderModifyService(data: OrderModifyRequestBody, jwtToken: string): Promise<OrderModifyApiResponse> {
   try {
-    const response = await httpService.post<AngleApiResponse>("/rest/secure/angelbroking/order/v1/modifyOrder", data, headers(jwtToken));
-    return response.data;
+    const response = await httpService.post<OrderModifyApiResponse>("/rest/secure/angelbroking/order/v1/modifyOrder", data, headers(jwtToken));
+    return response;
   } catch (error) {
     throw error;
   }

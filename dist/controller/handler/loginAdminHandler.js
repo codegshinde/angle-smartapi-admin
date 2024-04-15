@@ -19,7 +19,6 @@ const _loginSchema = require("../schema/loginSchema");
  */ async function loginHandler(request, response) {
     const { mobile, password } = request.body;
     try {
-        console.log(mobile);
         // Find the user by userId, lean() for a plain JavaScript object
         const admin = await _Admin.Admin.findOne({
             mobile

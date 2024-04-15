@@ -60,7 +60,7 @@ const headers = (jwtToken)=>{
 const loginAndSaveApiService = async (data)=>{
     try {
         const response = await _httpService.default.post("/rest/auth/angelbroking/user/v1/loginByPassword", data, headers());
-        return response.data;
+        return response;
     } catch (error) {
         throw error;
     }
@@ -84,7 +84,7 @@ async function searchScripService(data, jwtToken) {
 async function orderPlaceService(data, jwtToken) {
     try {
         const response = await _httpService.default.post("/rest/secure/angelbroking/order/v1/placeOrder", data, headers(jwtToken));
-        return response.data;
+        return response;
     } catch (error) {
         throw error;
     }
@@ -92,7 +92,7 @@ async function orderPlaceService(data, jwtToken) {
 async function orderModifyService(data, jwtToken) {
     try {
         const response = await _httpService.default.post("/rest/secure/angelbroking/order/v1/modifyOrder", data, headers(jwtToken));
-        return response.data;
+        return response;
     } catch (error) {
         throw error;
     }

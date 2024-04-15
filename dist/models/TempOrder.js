@@ -22,11 +22,15 @@ const TempOrderSchema = new _mongoose.Schema({
         type: String,
         required: true
     },
-    script: {
+    tradingsymbol: {
         type: String,
         required: true
     },
-    type: {
+    symboltoken: {
+        type: String,
+        required: true
+    },
+    transactiontype: {
         type: String,
         required: true
     }

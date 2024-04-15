@@ -1,58 +1,69 @@
 import { FastifyReply, FastifyRequest, RouteShorthandOptionsWithHandler } from "fastify";
-import { API } from "../../../models/API";
+import { API, ApiTypes } from "../../../models/API";
 import { TempOrder } from "../../../models/TempOrder";
 import { orderModifyService } from "../../../services/apiService";
 import { OrderModifyRequestBody, orderModifyRouteSchema } from "../../schema/orderModifySchema";
 
-async function processBatchOfOrders(accounts: any[], body: OrderModifyRequestBody, rateLimit: number): Promise<void> {
+const RATE_LIMIT = 15;
+
+/**
+ * Process batch of orders for a given set of accounts.
+ *
+ * @param accounts - The accounts to modify orders for.
+ * @param body - The order details to be modified.
+ * @param rateLimit - The rate limit to control the concurrency of requests.
+ */
+async function processBatchOfOrders(accounts: ApiTypes[], body: OrderModifyRequestBody, rateLimit: number): Promise<void> {
   const delay = 1000 / rateLimit; // Calculate delay based on rate limit
 
   for (const account of accounts) {
+    await new Promise((resolve) => setTimeout(resolve, delay));
+
     try {
-      // Find all temporary orders for the current account
       const tempOrders = await TempOrder.find({ userId: account._id });
 
-      // Process each temporary order
       for (const tempOrder of tempOrders) {
-        // Modify the temporary order using the orderModifyService
         body.orderid = tempOrder.orderid;
-        const response: any = await orderModifyService(body, account.jwtToken);
+        const response = await orderModifyService(body, account.jwtToken);
 
-        // Update the TempOrder document in the database with the new uniqorderid
-        console.log(response)
-        await TempOrder.updateOne({ orderid: tempOrder.orderid }, { $set: { uniqueorderid: response.uniqueorderid } });
+        if (!response || !response.data.orderid || !response.data.uniqueorderid) {
+          throw new Error("Invalid response from external API" + response.message);
+        }
 
-        // Introduce delay to respect rate limit
-        await new Promise((resolve) => setTimeout(resolve, delay));
+        await TempOrder.updateOne({ orderid: tempOrder.orderid }, { $set: { uniqueorderid: response.data.uniqueorderid } });
       }
     } catch (error) {
-      throw error;
+      console.error(`Error processing account ${account._id}:`, error);
     }
   }
 }
 
-async function multipleOrderModifyHandler(request: FastifyRequest, reply: FastifyReply) {
+/**
+ * Handler function for the multiple order modify route.
+ *
+ * @param request - The Fastify request object.
+ * @param reply - The Fastify reply object.
+ */
+const multipleOrderModifyHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
     const body = request.body as OrderModifyRequestBody;
     const accounts = await API.find({ endDate: { $gt: new Date() } });
 
-    if (accounts.length === 0) {
+    if (!accounts.length) {
       throw new Error("Accounts Not Found");
     }
 
-    const rateLimit = 15; // Requests per second (adjust as needed)
-
-    // Process and modify orders for each account
-    await processBatchOfOrders(accounts, body, rateLimit);
+    await processBatchOfOrders(accounts, body, RATE_LIMIT);
 
     reply.send({
       message: `Orders successfully modified for ${accounts.length} accounts.`,
       success: true,
     });
   } catch (error) {
+    console.error("Error processing multiple order modifies:", error);
     throw error;
   }
-}
+};
 
 export const multipleOrderModifyRouteOptions: RouteShorthandOptionsWithHandler = {
   schema: orderModifyRouteSchema,

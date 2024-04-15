@@ -16,7 +16,7 @@ const angelApiSchema = new _mongoose.Schema({
         unique: true
     },
     quantity: {
-        type: Number,
+        type: String,
         required: true
     },
     totpSecret: {

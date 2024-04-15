@@ -24,7 +24,7 @@ const options = _typebox.Type.Object({
     price: _typebox.Type.Optional(_typebox.Type.Number()),
     squareoff: _typebox.Type.Optional(_typebox.Type.String()),
     stoploss: _typebox.Type.Optional(_typebox.Type.Number()),
-    quantity: _typebox.Type.Optional(_typebox.Type.Number()),
+    quantity: _typebox.Type.Optional(_typebox.Type.String()),
     producttype: _typebox.Type.Optional(_typebox.Type.String())
 });
 const orderPlaceRouteSchema = {

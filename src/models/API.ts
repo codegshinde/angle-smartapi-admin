@@ -3,7 +3,7 @@ import { Schema, Types, model } from "mongoose";
 interface ApiTypes {
   _id: string;
   userId: Types.ObjectId;
-  quantity: number;
+  quantity: string;
   jwtToken: string;
   refreshToken: string;
   feedToken: string;
@@ -19,7 +19,7 @@ interface ApiTypes {
 const angelApiSchema = new Schema<ApiTypes>(
   {
     userId: { type: Schema.Types.ObjectId, required: true, unique: true },
-    quantity: { type: Number, required: true },
+    quantity: { type: String, required: true },
     totpSecret: { type: String, required: true },
     jwtToken: { type: String, required: false },
     refreshToken: { type: String, required: false },

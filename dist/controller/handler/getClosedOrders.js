@@ -16,7 +16,6 @@ async function getClosedOrders(request, reply) {
         const oldestAccount = await _API.API.findOne({}).sort({
             _id: 1
         }).limit(1);
-        console.log(oldestAccount);
         // If the lastTempOrder is found, send it in the response
         if (!oldestAccount) {
             throw new Error("User Not Found");

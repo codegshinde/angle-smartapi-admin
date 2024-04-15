@@ -11,7 +11,7 @@ const options = Type.Object({
   price: Type.Optional(Type.Number()),
   squareoff: Type.Optional(Type.String()),
   stoploss: Type.Optional(Type.Number()),
-  quantity: Type.Optional(Type.Number()),
+  quantity: Type.Optional(Type.String()),
   producttype: Type.Optional(Type.String()),
 });
 
