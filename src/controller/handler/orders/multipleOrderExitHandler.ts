@@ -5,7 +5,6 @@ import { TempOrder } from "../../../models/TempOrder";
 import { orderPlaceService } from "../../../services/apiService";
 import { OrderTypes } from "../../../types";
 import { calculateQuantityByScript } from "../../../utils/calculateQuantityByScript";
-import { orderPlaceRouteSchema } from "../../schema/orderPlaceSchema";
 
 const RATE_LIMIT = 15;
 
@@ -37,7 +36,7 @@ async function processBatchOrdersForAccount(account: ApiTypes): Promise<void> {
 
   try {
     const response = await orderPlaceService(createOrder, account.jwtToken);
-    
+
     if (!response.data || !response.data.orderid || !response.data.script) {
       console.error(`Invalid response from API for account ${account._id}`);
     }
@@ -109,6 +108,6 @@ const multipleOrderExitHandler = async (request: FastifyRequest, reply: FastifyR
 };
 
 export const multipleOrderExitRouteOptions: RouteShorthandOptionsWithHandler = {
-  schema: orderPlaceRouteSchema,
+  schema: {},
   handler: multipleOrderExitHandler,
 };

@@ -13,7 +13,6 @@ const _Order = require("../../../models/Order");
 const _TempOrder = require("../../../models/TempOrder");
 const _apiService = require("../../../services/apiService");
 const _calculateQuantityByScript = require("../../../utils/calculateQuantityByScript");
-const _orderPlaceSchema = require("../../schema/orderPlaceSchema");
 const RATE_LIMIT = 15;
 /**
  * Process batch orders for a single account.
@@ -105,6 +104,6 @@ const RATE_LIMIT = 15;
     }
 };
 const multipleOrderExitRouteOptions = {
-    schema: _orderPlaceSchema.orderPlaceRouteSchema,
+    schema: {},
     handler: multipleOrderExitHandler
 };
