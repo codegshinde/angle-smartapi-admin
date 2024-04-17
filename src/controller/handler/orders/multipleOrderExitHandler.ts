@@ -66,6 +66,7 @@ async function moveTempOrdersToPermanent(account: ApiTypes): Promise<void> {
         symboltoken: tempOrder.symboltoken,
         uniqueorderid: tempOrder.uniqueorderid,
         transactiontype: tempOrder.transactiontype,
+        orderTime: tempOrder.createdAt,
       });
 
       await newOrder.save();

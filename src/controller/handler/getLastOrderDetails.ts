@@ -8,7 +8,10 @@ async function getLastOrderDetailsHandler(request: FastifyRequest, reply: Fastif
 
     // If the lastTempOrder is found, send it in the response
     if (!lastTempOrder) {
-      throw new Error("No last order found");
+      reply.send({
+        message: "No previous orders found.",
+      });
+      return;
     }
 
     reply.send({

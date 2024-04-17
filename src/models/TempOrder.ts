@@ -7,6 +7,8 @@ interface TempOrderTypes {
   tradingsymbol: string;
   symboltoken: string;
   transactiontype: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const TempOrderSchema = new Schema<TempOrderTypes>(

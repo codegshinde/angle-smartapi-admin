@@ -33,6 +33,10 @@ const orderSchema = new _mongoose.Schema({
     transactiontype: {
         type: String,
         required: true
+    },
+    orderTime: {
+        type: Date,
+        required: true
     }
 }, {
     timestamps: true

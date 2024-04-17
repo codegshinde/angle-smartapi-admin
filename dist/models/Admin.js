@@ -14,6 +14,11 @@ const adminSchema = new _mongoose.Schema({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        required: true,
+        default: "user"
+    },
     mobile: {
         type: Number,
         required: true

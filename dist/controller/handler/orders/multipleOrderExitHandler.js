@@ -65,7 +65,8 @@ const RATE_LIMIT = 15;
                 tradingsymbol: tempOrder.tradingsymbol,
                 symboltoken: tempOrder.symboltoken,
                 uniqueorderid: tempOrder.uniqueorderid,
-                transactiontype: tempOrder.transactiontype
+                transactiontype: tempOrder.transactiontype,
+                orderTime: tempOrder.createdAt
             });
             await newOrder.save();
             await tempOrder.deleteOne();

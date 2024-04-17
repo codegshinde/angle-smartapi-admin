@@ -7,6 +7,7 @@ interface OrderTypes {
   tradingsymbol: string;
   symboltoken: string;
   transactiontype: string;
+  orderTime: Date;
 }
 
 const orderSchema = new Schema<OrderTypes>(
@@ -17,6 +18,7 @@ const orderSchema = new Schema<OrderTypes>(
     tradingsymbol: { type: String, required: true },
     symboltoken: { type: String, required: true },
     transactiontype: { type: String, required: true },
+    orderTime: { type: Date, required: true },
   },
   { timestamps: true }
 );

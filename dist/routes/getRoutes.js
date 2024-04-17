@@ -15,6 +15,7 @@ const _multipleTokenRefreshHandler = require("../controller/handler/multipleToke
 const _multipleUserLogin = require("../controller/handler/multipleUserLogin");
 const _reloadServiceHandler = require("../controller/handler/reloadServiceHandler");
 const _getSymbol = require("../controller/handler/symbol/getSymbol");
+const _userProfileHandler = require("../controller/handler/user/userProfileHandler");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -23,9 +24,11 @@ function _interop_require_default(obj) {
 async function getROutes(fastify) {
     fastify.get("/reload", _reloadServiceHandler.reloadServiceRouteOptions);
     fastify.get("/user/login", _multipleUserLogin.multipleUserLoginRouteOptions);
+    fastify.get("/user/profile", _userProfileHandler.userProfileRouteOptions);
     fastify.get("/user/tokens/refresh", _multipleTokenRefreshHandler.multipleTokenRefreshRouteOptions);
     fastify.get("/user/order/view", _getLastOrderDetails.getLastOrderRouteOptions);
     fastify.get("/user/order/closed", _getClosedOrders.getClosedOrdersRouteOptions);
     fastify.get("/user/symbols", _getSymbol.getSymbolRouteOptions);
+//fastify.get("/user/order/status", )
 }
 const _default = (0, _fastifyplugin.default)(getROutes);
