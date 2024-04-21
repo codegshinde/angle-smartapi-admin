@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 require("dotenv/config");
 const _fastify = /*#__PURE__*/ _interop_require_default(require("fastify"));
 const _app = /*#__PURE__*/ _interop_require_default(require("./app"));
+const _cron = require("./cron/cron");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -33,6 +34,7 @@ function _interop_require_default(obj) {
             port,
             host
         });
+        await (0, _cron.startMultipleUserLoginCron)();
     } catch (error) {
         // Handle any errors during server startup
         console.error(error);

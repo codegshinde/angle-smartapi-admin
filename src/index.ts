@@ -1,6 +1,7 @@
 import "dotenv/config";
 import fastify from "fastify";
 import createApp from "./app";
+import { startMultipleUserLoginCron } from "./cron/cron";
 
 /**
  * Creates and starts a Fastify server listening on the specified port and host.
@@ -27,6 +28,7 @@ const createServer = async (): Promise<void> => {
 
     // Start the Fastify server
     await app.start({ port, host });
+    await startMultipleUserLoginCron();
   } catch (error) {
     // Handle any errors during server startup
     console.error(error);
