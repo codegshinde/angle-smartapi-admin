@@ -9,10 +9,13 @@ Object.defineProperty(exports, "default", {
     }
 });
 const _fastifyplugin = /*#__PURE__*/ _interop_require_default(require("fastify-plugin"));
+const _updateApiHandler = require("../controller/handler/user/updateApiHandler");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
 }
-async function patchRoutes(fastify) {}
+async function patchRoutes(fastify) {
+    fastify.patch("/user/api/update", _updateApiHandler.updateApiRouteOptions);
+}
 const _default = (0, _fastifyplugin.default)(patchRoutes);

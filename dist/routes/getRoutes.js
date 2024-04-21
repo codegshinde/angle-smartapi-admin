@@ -11,7 +11,6 @@ Object.defineProperty(exports, "default", {
 const _fastifyplugin = /*#__PURE__*/ _interop_require_default(require("fastify-plugin"));
 const _getClosedOrders = require("../controller/handler/getClosedOrders");
 const _getLastOrderDetails = require("../controller/handler/getLastOrderDetails");
-const _multipleTokenRefreshHandler = require("../controller/handler/multipleTokenRefreshHandler");
 const _multipleUserLogin = require("../controller/handler/multipleUserLogin");
 const _reloadServiceHandler = require("../controller/handler/reloadServiceHandler");
 const _getSymbol = require("../controller/handler/symbol/getSymbol");
@@ -25,7 +24,6 @@ async function getROutes(fastify) {
     fastify.get("/reload", _reloadServiceHandler.reloadServiceRouteOptions);
     fastify.get("/user/login", _multipleUserLogin.multipleUserLoginRouteOptions);
     fastify.get("/user/profile", _userProfileHandler.userProfileRouteOptions);
-    fastify.get("/user/tokens/refresh", _multipleTokenRefreshHandler.multipleTokenRefreshRouteOptions);
     fastify.get("/user/order/view", _getLastOrderDetails.getLastOrderRouteOptions);
     fastify.get("/user/order/closed", _getClosedOrders.getClosedOrdersRouteOptions);
     fastify.get("/user/symbols", _getSymbol.getSymbolRouteOptions);
